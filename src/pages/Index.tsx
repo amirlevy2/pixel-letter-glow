@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import PixelGrid from '../components/PixelGrid';
 import WordPixelGrid from '../components/WordPixelGrid';
+import { Button } from "@/components/ui/button";
 import { Input } from '@/components/ui/input';
+import { Circle, Square, Download } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -24,6 +26,8 @@ const Index = () => {
   const [letterBgColor, setLetterBgColor] = useState('#FFFFFF');
   const [wordActiveColor, setWordActiveColor] = useState('#D946EF');
   const [wordBgColor, setWordBgColor] = useState('#FFFFFF');
+  const [letterShape, setLetterShape] = useState<'square' | 'circle'>('square');
+  const [wordShape, setWordShape] = useState<'square' | 'circle'>('square');
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4 gap-8">
@@ -110,6 +114,37 @@ const Index = () => {
               className="w-20 h-10 p-1 rounded cursor-pointer"
             />
           </div>
+
+          <div className="flex gap-2 items-end">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Shape
+              </label>
+              <div className="flex gap-2">
+                <Button
+                  variant={letterShape === 'square' ? 'default' : 'outline'}
+                  size="icon"
+                  onClick={() => setLetterShape('square')}
+                >
+                  <Square className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={letterShape === 'circle' ? 'default' : 'outline'}
+                  size="icon"
+                  onClick={() => setLetterShape('circle')}
+                >
+                  <Circle className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <Button
+              variant="outline"
+              onClick={() => (document.querySelector('#letterGrid') as any)?.downloadAsImage()}
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Download
+            </Button>
+          </div>
         </div>
 
         <PixelGrid 
@@ -118,6 +153,8 @@ const Index = () => {
           gridSize={letterGridSize}
           activeColor={letterActiveColor}
           backgroundColor={letterBgColor}
+          shape={letterShape}
+          ref={(el: any) => el && (document.querySelector('#letterGrid') as any) = el}
         />
         
         <p className="mt-4 text-sm text-gray-600 text-center font-hadassa">
@@ -184,6 +221,37 @@ const Index = () => {
               className="w-20 h-10 p-1 rounded cursor-pointer"
             />
           </div>
+
+          <div className="flex gap-2 items-end">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Shape
+              </label>
+              <div className="flex gap-2">
+                <Button
+                  variant={wordShape === 'square' ? 'default' : 'outline'}
+                  size="icon"
+                  onClick={() => setWordShape('square')}
+                >
+                  <Square className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={wordShape === 'circle' ? 'default' : 'outline'}
+                  size="icon"
+                  onClick={() => setWordShape('circle')}
+                >
+                  <Circle className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            <Button
+              variant="outline"
+              onClick={() => (document.querySelector('#wordGrid') as any)?.downloadAsImage()}
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Download
+            </Button>
+          </div>
         </div>
 
         <WordPixelGrid 
@@ -191,6 +259,8 @@ const Index = () => {
           font={wordFont}
           activeColor={wordActiveColor}
           backgroundColor={wordBgColor}
+          shape={wordShape}
+          ref={(el: any) => el && (document.querySelector('#wordGrid') as any) = el}
         />
         
         <p className="mt-4 text-sm text-gray-600 text-center font-hadassa">

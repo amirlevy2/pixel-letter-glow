@@ -5,13 +5,15 @@ interface WordPixelGridProps {
   font: string;
   activeColor?: string;
   backgroundColor?: string;
+  shape?: 'square' | 'circle';
 }
 
 const WordPixelGrid = ({ 
   word, 
   font,
   activeColor = '#D946EF',
-  backgroundColor = 'white'
+  backgroundColor = 'white',
+  shape = 'square'
 }: WordPixelGridProps) => {
   const gridWidth = 30; // Fixed width
   const gridHeight = 9; // Fixed height
@@ -69,6 +71,34 @@ const WordPixelGrid = ({
     setPixels(newPixels);
   }, [word, font, gridHeight, backgroundColor]);
 
+  const downloadAsImage = () => {
+    const grid = document.createElement('div');
+    grid.className = `grid gap-0.5 bg-gray-200 p-0.5`;
+    grid.style.width = '720px';
+    grid.style.height = '216px';
+    grid.style.display = 'grid';
+    grid.style.gridTemplateColumns = `repeat(${gridWidth}, minmax(0, 1fr))`;
+
+    pixels.forEach(row => {
+      row.forEach(isActive => {
+        const pixel = document.createElement('div');
+        pixel.className = 'aspect-square';
+        pixel.style.backgroundColor = isActive ? activeColor : backgroundColor;
+        if (shape === 'circle') {
+          pixel.style.borderRadius = '50%';
+        }
+        grid.appendChild(pixel);
+      });
+    });
+
+    html2canvas(grid).then(canvas => {
+      const link = document.createElement('a');
+      link.download = `pixel-word-${word}.png`;
+      link.href = canvas.toDataURL();
+      link.click();
+    });
+  };
+
   return (
     <div className="relative w-[720px] h-[216px]">
       <canvas
@@ -82,7 +112,7 @@ const WordPixelGrid = ({
           row.map((isActive, j) => (
             <div
               key={`${i}-${j}`}
-              className="aspect-square"
+              className={`aspect-square ${shape === 'circle' ? 'rounded-full' : ''}`}
               style={{
                 backgroundColor: isActive ? activeColor : backgroundColor
               }}
