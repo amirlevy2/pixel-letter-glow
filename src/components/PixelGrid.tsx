@@ -25,12 +25,12 @@ const PixelGrid = ({ letter }: PixelGridProps) => {
 
     // Draw the letter
     ctx.fillStyle = 'black';
-    ctx.font = '90px Arial';
-    ctx.textBaseline = 'top';
-    const textMetrics = ctx.measureText(letter);
-    const x = (canvas.width - textMetrics.width) / 2;
-    const y = 0;
-    ctx.fillText(letter, x, y);
+    ctx.font = 'bold 100px Arial Hebrew, Arial';
+    ctx.textBaseline = 'middle';
+    ctx.textAlign = 'center';
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    ctx.fillText(letter, centerX, centerY);
 
     // Check pixel coverage
     const pixelSize = canvas.width / 9;
