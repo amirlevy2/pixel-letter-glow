@@ -1,22 +1,20 @@
-
 import { useState, useEffect, useRef } from 'react';
 
 interface WordPixelGridProps {
   word: string;
   font: string;
-  gridHeight?: number;
   activeColor?: string;
   backgroundColor?: string;
 }
 
 const WordPixelGrid = ({ 
   word, 
-  font, 
-  gridHeight = 9,
+  font,
   activeColor = '#D946EF',
   backgroundColor = 'white'
 }: WordPixelGridProps) => {
-  const gridWidth = 30; // Keep fixed width for words
+  const gridWidth = 30; // Fixed width
+  const gridHeight = 9; // Fixed height
   const gridRef = useRef<HTMLCanvasElement>(null);
   const [pixels, setPixels] = useState<boolean[][]>(Array(gridHeight).fill(Array(gridWidth).fill(false)));
 

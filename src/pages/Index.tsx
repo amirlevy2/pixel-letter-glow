@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import PixelGrid from '../components/PixelGrid';
 import WordPixelGrid from '../components/WordPixelGrid';
@@ -20,10 +19,7 @@ const Index = () => {
   const [word, setWord] = useState('');
   const [letterFont, setLetterFont] = useState(FONTS[0]);
   const [wordFont, setWordFont] = useState(FONTS[0]);
-  
-  // New state for grid sizes and colors
   const [letterGridSize, setLetterGridSize] = useState(9);
-  const [wordGridHeight, setWordGridHeight] = useState(9);
   const [letterActiveColor, setLetterActiveColor] = useState('#D946EF');
   const [letterBgColor, setLetterBgColor] = useState('#FFFFFF');
   const [wordActiveColor, setWordActiveColor] = useState('#D946EF');
@@ -164,24 +160,6 @@ const Index = () => {
           </div>
 
           <div>
-            <label htmlFor="wordGridHeight" className="block text-sm font-medium text-gray-700 mb-2">
-              Grid Height
-            </label>
-            <Select value={wordGridHeight.toString()} onValueChange={(value) => setWordGridHeight(Number(value))}>
-              <SelectTrigger className="w-[100px]">
-                <SelectValue placeholder="Height" />
-              </SelectTrigger>
-              <SelectContent>
-                {GRID_SIZES.map((size) => (
-                  <SelectItem key={size} value={size.toString()}>
-                    {size}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
             <label htmlFor="wordActiveColor" className="block text-sm font-medium text-gray-700 mb-2">
               Pixel Color
             </label>
@@ -211,7 +189,6 @@ const Index = () => {
         <WordPixelGrid 
           word={word} 
           font={wordFont}
-          gridHeight={wordGridHeight}
           activeColor={wordActiveColor}
           backgroundColor={wordBgColor}
         />

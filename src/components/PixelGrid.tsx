@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 
 interface PixelGridProps {
@@ -35,12 +34,11 @@ const PixelGrid = ({
 
     // Draw the letter
     ctx.fillStyle = 'black';
-    ctx.font = `bold 400px ${font}, sans-serif`;
-    ctx.textBaseline = 'middle';
+    ctx.font = `bold 500px ${font}, sans-serif`;
+    ctx.textBaseline = 'top';
     ctx.textAlign = 'center';
     const centerX = canvas.width / 2;
-    const centerY = (canvas.height / 2) + 60;
-    ctx.fillText(letter, centerX, centerY);
+    ctx.fillText(letter, centerX, -70);
 
     // Check pixel coverage
     const pixelSize = canvas.width / gridSize;
