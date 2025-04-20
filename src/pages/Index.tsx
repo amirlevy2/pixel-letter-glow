@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import PixelGrid from '../components/PixelGrid';
 import WordPixelGrid from '../components/WordPixelGrid';
@@ -28,6 +29,19 @@ const Index = () => {
   const [wordBgColor, setWordBgColor] = useState('#FFFFFF');
   const [letterShape, setLetterShape] = useState<'square' | 'circle'>('square');
   const [wordShape, setWordShape] = useState<'square' | 'circle'>('square');
+
+  // Functions to store grid references
+  const setLetterGridRef = (el: any) => {
+    if (el) {
+      (window as any).letterGrid = el;
+    }
+  };
+
+  const setWordGridRef = (el: any) => {
+    if (el) {
+      (window as any).wordGrid = el;
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4 gap-8">
@@ -139,7 +153,7 @@ const Index = () => {
             </div>
             <Button
               variant="outline"
-              onClick={() => (document.querySelector('#letterGrid') as any)?.downloadAsImage()}
+              onClick={() => (window as any).letterGrid?.downloadAsImage()}
             >
               <Download className="mr-2 h-4 w-4" />
               Download
@@ -154,7 +168,7 @@ const Index = () => {
           activeColor={letterActiveColor}
           backgroundColor={letterBgColor}
           shape={letterShape}
-          ref={(el: any) => el && (document.querySelector('#letterGrid') as any) = el}
+          ref={setLetterGridRef}
         />
         
         <p className="mt-4 text-sm text-gray-600 text-center font-hadassa">
@@ -246,7 +260,7 @@ const Index = () => {
             </div>
             <Button
               variant="outline"
-              onClick={() => (document.querySelector('#wordGrid') as any)?.downloadAsImage()}
+              onClick={() => (window as any).wordGrid?.downloadAsImage()}
             >
               <Download className="mr-2 h-4 w-4" />
               Download
@@ -260,7 +274,7 @@ const Index = () => {
           activeColor={wordActiveColor}
           backgroundColor={wordBgColor}
           shape={wordShape}
-          ref={(el: any) => el && (document.querySelector('#wordGrid') as any) = el}
+          ref={setWordGridRef}
         />
         
         <p className="mt-4 text-sm text-gray-600 text-center font-hadassa">

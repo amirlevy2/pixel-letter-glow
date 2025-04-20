@@ -1,4 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+
+import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import html2canvas from 'html2canvas';
 
 interface WordPixelGridProps {
   word: string;
@@ -8,13 +10,13 @@ interface WordPixelGridProps {
   shape?: 'square' | 'circle';
 }
 
-const WordPixelGrid = ({ 
+const WordPixelGrid = forwardRef<{ downloadAsImage: () => void }, WordPixelGridProps>(({ 
   word, 
   font,
   activeColor = '#D946EF',
   backgroundColor = 'white',
   shape = 'square'
-}: WordPixelGridProps) => {
+}, ref) => {
   const gridWidth = 30; // Fixed width
   const gridHeight = 9; // Fixed height
   const gridRef = useRef<HTMLCanvasElement>(null);
@@ -69,7 +71,7 @@ const WordPixelGrid = ({
     }
 
     setPixels(newPixels);
-  }, [word, font, gridHeight, backgroundColor]);
+  }, [word, font, backgroundColor]);
 
   const downloadAsImage = () => {
     const grid = document.createElement('div');
@@ -99,6 +101,11 @@ const WordPixelGrid = ({
     });
   };
 
+  // Expose the downloadAsImage method to parent components
+  useImperativeHandle(ref, () => ({
+    downloadAsImage
+  }));
+
   return (
     <div className="relative w-[720px] h-[216px]">
       <canvas
@@ -122,6 +129,8 @@ const WordPixelGrid = ({
       </div>
     </div>
   );
-};
+});
+
+WordPixelGrid.displayName = 'WordPixelGrid';
 
 export default WordPixelGrid;
