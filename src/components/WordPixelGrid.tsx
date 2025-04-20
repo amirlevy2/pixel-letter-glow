@@ -25,11 +25,11 @@ const WordPixelGrid = ({ word }: WordPixelGridProps) => {
 
     // Draw the word with maximum size and positioning
     ctx.fillStyle = 'black';
-    ctx.font = 'bold 120px Heebo, Arial Hebrew, sans-serif';
+    ctx.font = 'bold 350px Heebo, Arial Hebrew, sans-serif'; // Increased font size dramatically
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
     const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2 + 20;
+    const centerY = canvas.height / 2 + 50; // Adjusted vertical positioning
     ctx.fillText(word, centerX, centerY);
 
     // Check pixel coverage
