@@ -1,0 +1,87 @@
+
+import { useState, useEffect, useRef } from 'react';
+
+interface PixelGridProps {
+  letter: string;
+}
+
+const PixelGrid = ({ letter }: PixelGridProps) => {
+  const gridRef = useRef<HTMLCanvasElement>(null);
+  const [pixels, setPixels] = useState<boolean[][]>(Array(9).fill(Array(9).fill(false)));
+
+  useEffect(() => {
+    const canvas = gridRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Set white background
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw the letter
+    ctx.fillStyle = 'black';
+    ctx.font = '90px Arial';
+    ctx.textBaseline = 'top';
+    const textMetrics = ctx.measureText(letter);
+    const x = (canvas.width - textMetrics.width) / 2;
+    const y = 0;
+    ctx.fillText(letter, x, y);
+
+    // Check pixel coverage
+    const pixelSize = canvas.width / 9;
+    const newPixels = Array(9).fill(null).map(() => Array(9).fill(false));
+
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        const imageData = ctx.getImageData(
+          j * pixelSize,
+          i * pixelSize,
+          pixelSize,
+          pixelSize
+        );
+        
+        let blackPixels = 0;
+        for (let k = 0; k < imageData.data.length; k += 4) {
+          if (imageData.data[k] < 128) {
+            blackPixels++;
+          }
+        }
+
+        const coverage = blackPixels / (pixelSize * pixelSize);
+        newPixels[i][j] = coverage > 0.95;
+      }
+    }
+
+    setPixels(newPixels);
+  }, [letter]);
+
+  return (
+    <div className="relative w-[360px] h-[360px]">
+      <canvas
+        ref={gridRef}
+        width="360"
+        height="360"
+        className="absolute top-0 left-0 opacity-0"
+      />
+      <div className="grid grid-cols-9 gap-0.5 bg-gray-200 p-0.5">
+        {pixels.map((row, i) =>
+          row.map((isActive, j) => (
+            <div
+              key={`${i}-${j}`}
+              className={`aspect-square ${
+                isActive ? 'bg-[#D946EF]' : 'bg-white'
+              }`}
+            />
+          ))
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default PixelGrid;
