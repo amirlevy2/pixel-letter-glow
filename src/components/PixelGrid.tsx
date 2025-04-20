@@ -53,7 +53,7 @@ const PixelGrid = ({ letter }: PixelGridProps) => {
         }
 
         const coverage = blackPixels / (pixelSize * pixelSize);
-        newPixels[i][j] = coverage > 0.95;
+        newPixels[i][j] = coverage > 0; // Changed from 0.95 to 0
       }
     }
 

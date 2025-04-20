@@ -33,7 +33,7 @@ const Index = () => {
         <PixelGrid letter={letter} />
         
         <p className="mt-4 text-sm text-gray-600 text-center font-hadassa">
-          Pixels turn pink when the letter covers more than 95% of the area
+          Pixels turn pink when the letter covers any part of the area
         </p>
       </div>
     </div>
