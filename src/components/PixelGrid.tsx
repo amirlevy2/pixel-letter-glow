@@ -25,7 +25,7 @@ const PixelGrid = ({ letter }: PixelGridProps) => {
 
     // Draw the letter
     ctx.fillStyle = 'black';
-    ctx.font = 'bold 100px Arial Hebrew, Arial';
+    ctx.font = 'bold 100px Heebo, Arial Hebrew, sans-serif';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
     const centerX = canvas.width / 2;
