@@ -1,13 +1,23 @@
+
 import { useState, useEffect, useRef } from 'react';
 
 interface PixelGridProps {
   letter: string;
   font: string;
+  gridSize?: number;
+  activeColor?: string;
+  backgroundColor?: string;
 }
 
-const PixelGrid = ({ letter, font }: PixelGridProps) => {
+const PixelGrid = ({ 
+  letter, 
+  font, 
+  gridSize = 9, 
+  activeColor = '#D946EF',
+  backgroundColor = 'white'
+}: PixelGridProps) => {
   const gridRef = useRef<HTMLCanvasElement>(null);
-  const [pixels, setPixels] = useState<boolean[][]>(Array(9).fill(Array(9).fill(false)));
+  const [pixels, setPixels] = useState<boolean[][]>(Array(gridSize).fill(Array(gridSize).fill(false)));
 
   useEffect(() => {
     const canvas = gridRef.current;
@@ -19,11 +29,11 @@ const PixelGrid = ({ letter, font }: PixelGridProps) => {
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Set white background
-    ctx.fillStyle = 'white';
+    // Set background
+    ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw the letter with maximum size and positioning
+    // Draw the letter
     ctx.fillStyle = 'black';
     ctx.font = `bold 400px ${font}, sans-serif`;
     ctx.textBaseline = 'middle';
@@ -33,11 +43,11 @@ const PixelGrid = ({ letter, font }: PixelGridProps) => {
     ctx.fillText(letter, centerX, centerY);
 
     // Check pixel coverage
-    const pixelSize = canvas.width / 9;
-    const newPixels = Array(9).fill(null).map(() => Array(9).fill(false));
+    const pixelSize = canvas.width / gridSize;
+    const newPixels = Array(gridSize).fill(null).map(() => Array(gridSize).fill(false));
 
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
+    for (let i = 0; i < gridSize; i++) {
+      for (let j = 0; j < gridSize; j++) {
         const imageData = ctx.getImageData(
           j * pixelSize,
           i * pixelSize,
@@ -58,7 +68,7 @@ const PixelGrid = ({ letter, font }: PixelGridProps) => {
     }
 
     setPixels(newPixels);
-  }, [letter, font]);
+  }, [letter, font, gridSize, backgroundColor]);
 
   return (
     <div className="relative w-[360px] h-[360px]">
@@ -68,14 +78,17 @@ const PixelGrid = ({ letter, font }: PixelGridProps) => {
         height="360"
         className="absolute top-0 left-0 opacity-0"
       />
-      <div className="grid grid-cols-9 gap-0.5 bg-gray-200 p-0.5">
+      <div className={`grid gap-0.5 bg-gray-200 p-0.5`} style={{
+        gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`
+      }}>
         {pixels.map((row, i) =>
           row.map((isActive, j) => (
             <div
               key={`${i}-${j}`}
-              className={`aspect-square ${
-                isActive ? 'bg-[#D946EF]' : 'bg-white'
-              }`}
+              className="aspect-square"
+              style={{
+                backgroundColor: isActive ? activeColor : backgroundColor
+              }}
             />
           ))
         )}

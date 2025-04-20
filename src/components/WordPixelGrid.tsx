@@ -1,13 +1,24 @@
+
 import { useState, useEffect, useRef } from 'react';
 
 interface WordPixelGridProps {
   word: string;
   font: string;
+  gridHeight?: number;
+  activeColor?: string;
+  backgroundColor?: string;
 }
 
-const WordPixelGrid = ({ word, font }: WordPixelGridProps) => {
+const WordPixelGrid = ({ 
+  word, 
+  font, 
+  gridHeight = 9,
+  activeColor = '#D946EF',
+  backgroundColor = 'white'
+}: WordPixelGridProps) => {
+  const gridWidth = 30; // Keep fixed width for words
   const gridRef = useRef<HTMLCanvasElement>(null);
-  const [pixels, setPixels] = useState<boolean[][]>(Array(9).fill(Array(30).fill(false)));
+  const [pixels, setPixels] = useState<boolean[][]>(Array(gridHeight).fill(Array(gridWidth).fill(false)));
 
   useEffect(() => {
     const canvas = gridRef.current;
@@ -19,13 +30,13 @@ const WordPixelGrid = ({ word, font }: WordPixelGridProps) => {
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Set white background
-    ctx.fillStyle = 'white';
+    // Set background
+    ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw the word with maximum size and positioning
+    // Draw the word
     ctx.fillStyle = 'black';
-    ctx.font = `bold 350px ${font}, sans-serif`; // Use the selected font
+    ctx.font = `bold 350px ${font}, sans-serif`;
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
     const centerX = canvas.width / 2;
@@ -33,11 +44,11 @@ const WordPixelGrid = ({ word, font }: WordPixelGridProps) => {
     ctx.fillText(word, centerX, centerY);
 
     // Check pixel coverage
-    const pixelSize = canvas.width / 30;
-    const newPixels = Array(9).fill(null).map(() => Array(30).fill(false));
+    const pixelSize = canvas.width / gridWidth;
+    const newPixels = Array(gridHeight).fill(null).map(() => Array(gridWidth).fill(false));
 
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 30; j++) {
+    for (let i = 0; i < gridHeight; i++) {
+      for (let j = 0; j < gridWidth; j++) {
         const imageData = ctx.getImageData(
           j * pixelSize,
           i * pixelSize,
@@ -58,7 +69,7 @@ const WordPixelGrid = ({ word, font }: WordPixelGridProps) => {
     }
 
     setPixels(newPixels);
-  }, [word, font]);
+  }, [word, font, gridHeight, backgroundColor]);
 
   return (
     <div className="relative w-[720px] h-[216px]">
@@ -68,14 +79,15 @@ const WordPixelGrid = ({ word, font }: WordPixelGridProps) => {
         height="216"
         className="absolute top-0 left-0 opacity-0"
       />
-      <div className="grid grid-cols-30 gap-0.5 bg-gray-200 p-0.5">
+      <div className={`grid grid-cols-30 gap-0.5 bg-gray-200 p-0.5`}>
         {pixels.map((row, i) =>
           row.map((isActive, j) => (
             <div
               key={`${i}-${j}`}
-              className={`aspect-square ${
-                isActive ? 'bg-[#D946EF]' : 'bg-white'
-              }`}
+              className="aspect-square"
+              style={{
+                backgroundColor: isActive ? activeColor : backgroundColor
+              }}
             />
           ))
         )}
