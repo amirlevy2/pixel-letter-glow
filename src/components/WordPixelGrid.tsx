@@ -1,11 +1,11 @@
-
 import { useState, useEffect, useRef } from 'react';
 
 interface WordPixelGridProps {
   word: string;
+  font: string;
 }
 
-const WordPixelGrid = ({ word }: WordPixelGridProps) => {
+const WordPixelGrid = ({ word, font }: WordPixelGridProps) => {
   const gridRef = useRef<HTMLCanvasElement>(null);
   const [pixels, setPixels] = useState<boolean[][]>(Array(9).fill(Array(30).fill(false)));
 
@@ -25,11 +25,11 @@ const WordPixelGrid = ({ word }: WordPixelGridProps) => {
 
     // Draw the word with maximum size and positioning
     ctx.fillStyle = 'black';
-    ctx.font = 'bold 350px Heebo, Arial Hebrew, sans-serif'; // Increased font size dramatically
+    ctx.font = `bold 350px ${font}, sans-serif`; // Use the selected font
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
     const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2 + 50; // Adjusted vertical positioning
+    const centerY = canvas.height / 2 + 50;
     ctx.fillText(word, centerX, centerY);
 
     // Check pixel coverage
@@ -58,7 +58,7 @@ const WordPixelGrid = ({ word }: WordPixelGridProps) => {
     }
 
     setPixels(newPixels);
-  }, [word]);
+  }, [word, font]);
 
   return (
     <div className="relative w-[720px] h-[216px]">

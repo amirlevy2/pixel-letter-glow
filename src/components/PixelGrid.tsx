@@ -1,11 +1,11 @@
-
 import { useState, useEffect, useRef } from 'react';
 
 interface PixelGridProps {
   letter: string;
+  font: string;
 }
 
-const PixelGrid = ({ letter }: PixelGridProps) => {
+const PixelGrid = ({ letter, font }: PixelGridProps) => {
   const gridRef = useRef<HTMLCanvasElement>(null);
   const [pixels, setPixels] = useState<boolean[][]>(Array(9).fill(Array(9).fill(false)));
 
@@ -25,11 +25,11 @@ const PixelGrid = ({ letter }: PixelGridProps) => {
 
     // Draw the letter with maximum size and positioning
     ctx.fillStyle = 'black';
-    ctx.font = 'bold 400px Heebo, Arial Hebrew, sans-serif'; // Increased font size
+    ctx.font = `bold 400px ${font}, sans-serif`;
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
     const centerX = canvas.width / 2;
-    const centerY = (canvas.height / 2) + 60; // Further adjusted vertical positioning
+    const centerY = (canvas.height / 2) + 60;
     ctx.fillText(letter, centerX, centerY);
 
     // Check pixel coverage
@@ -58,7 +58,7 @@ const PixelGrid = ({ letter }: PixelGridProps) => {
     }
 
     setPixels(newPixels);
-  }, [letter]);
+  }, [letter, font]);
 
   return (
     <div className="relative w-[360px] h-[360px]">
@@ -85,4 +85,3 @@ const PixelGrid = ({ letter }: PixelGridProps) => {
 };
 
 export default PixelGrid;
-
