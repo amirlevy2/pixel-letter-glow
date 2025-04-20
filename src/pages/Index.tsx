@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import PixelGrid from '../components/PixelGrid';
 import WordPixelGrid from '../components/WordPixelGrid';
@@ -14,7 +13,7 @@ import {
 } from "@/components/ui/select";
 
 const HEBREW_ALPHABET = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח', 'ט', 'י', 'כ', 'ל', 'מ', 'נ', 'ס', 'ע', 'פ', 'צ', 'ק', 'ר', 'ש', 'ת'];
-const FONTS = ['Heebo', 'Arial Hebrew'];
+const FONTS = ['Heebo', 'Arial Hebrew', 'CustomFont'];
 const GRID_SIZES = Array.from({ length: 23 }, (_, i) => i + 3); // 3 to 25
 
 const Index = () => {

@@ -1,4 +1,3 @@
-
 import { fontFamily } from "tailwindcss/defaultTheme";
 
 /** @type {import('tailwindcss').Config} */
@@ -60,6 +59,7 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
         hadassa: ["Heebo", "Arial Hebrew", "sans-serif"],
+        custom: ["CustomFont", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {
