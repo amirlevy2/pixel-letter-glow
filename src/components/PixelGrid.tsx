@@ -23,13 +23,13 @@ const PixelGrid = ({ letter }: PixelGridProps) => {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw the letter
+    // Draw the letter with increased size and adjusted positioning
     ctx.fillStyle = 'black';
-    ctx.font = 'bold 100px Heebo, Arial Hebrew, sans-serif';
+    ctx.font = 'bold 280px Heebo, Arial Hebrew, sans-serif'; // Increased from 100px to 280px
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
     const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
+    const centerY = (canvas.height / 2) + 20; // Adjusted vertical position slightly down
     ctx.fillText(letter, centerX, centerY);
 
     // Check pixel coverage
@@ -53,7 +53,7 @@ const PixelGrid = ({ letter }: PixelGridProps) => {
         }
 
         const coverage = blackPixels / (pixelSize * pixelSize);
-        newPixels[i][j] = coverage > 0; // Changed from 0.95 to 0
+        newPixels[i][j] = coverage > 0;
       }
     }
 
