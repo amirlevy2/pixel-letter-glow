@@ -23,13 +23,13 @@ const PixelGrid = ({ letter }: PixelGridProps) => {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw the letter with maximum size and optimal positioning
+    // Draw the letter with maximum size and positioning
     ctx.fillStyle = 'black';
-    ctx.font = 'bold 340px Heebo, Arial Hebrew, sans-serif'; // Increased to 340px
+    ctx.font = 'bold 400px Heebo, Arial Hebrew, sans-serif'; // Increased font size
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
     const centerX = canvas.width / 2;
-    const centerY = (canvas.height / 2) + 40; // Further adjusted vertical position
+    const centerY = (canvas.height / 2) + 60; // Further adjusted vertical positioning
     ctx.fillText(letter, centerX, centerY);
 
     // Check pixel coverage
@@ -85,3 +85,4 @@ const PixelGrid = ({ letter }: PixelGridProps) => {
 };
 
 export default PixelGrid;
+
