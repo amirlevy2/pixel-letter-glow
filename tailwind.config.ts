@@ -59,7 +59,7 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
         hadassa: ["Heebo", "Arial Hebrew", "sans-serif"],
-        custom: ["CustomFont", "sans-serif"],
+        custom: ["Hadassa", "sans-serif"],
       },
       keyframes: {
         "accordion-down": {
